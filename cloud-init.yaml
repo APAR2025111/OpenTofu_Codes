@@ -1,0 +1,249 @@
+#cloud-config
+
+packages:
+  - apache2
+
+write_files:
+  - path: /var/www/html/index.html
+    permissions: "0644"
+    content: |
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Week 7 - OpenStack & OpenTofu</title>
+
+        <style>
+          * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+          }
+
+          body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fb;
+            color: #333;
+            line-height: 1.6;
+            padding: 30px 15px;
+          }
+
+          .container {
+            max-width: 1000px;
+            margin: auto;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+          }
+
+          .header {
+            background: linear-gradient(135deg, #1f4e79, #2878b5);
+            color: white;
+            text-align: center;
+            padding: 45px 25px;
+          }
+
+          .header h1 {
+            font-size: 34px;
+            margin-bottom: 10px;
+          }
+
+          .header p {
+            font-size: 17px;
+            opacity: 0.9;
+          }
+
+          .content {
+            padding: 40px;
+          }
+
+          .student-section {
+            text-align: center;
+            margin-bottom: 35px;
+          }
+
+          .student-section h2 {
+            color: #1f4e79;
+            font-size: 28px;
+            margin-bottom: 12px;
+          }
+
+          .student-section p {
+            font-size: 19px;
+            color: #555;
+          }
+
+          .status-box {
+            background: #eef7ff;
+            border-left: 5px solid #2878b5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+          }
+
+          .status-box h3 {
+            color: #1f4e79;
+            margin-bottom: 8px;
+          }
+
+          .section-title {
+            text-align: center;
+            color: #1f4e79;
+            font-size: 27px;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e1e8ef;
+          }
+
+          .question {
+            background: #fafcfe;
+            border: 1px solid #dfe7ee;
+            border-radius: 10px;
+            padding: 24px;
+            margin-bottom: 22px;
+          }
+
+          .question h3 {
+            color: #2878b5;
+            font-size: 19px;
+            margin-bottom: 10px;
+          }
+
+          .question p {
+            color: #444;
+            font-size: 16px;
+          }
+
+          .footer {
+            background: #f7f7f7;
+            text-align: center;
+            padding: 20px;
+            color: #777;
+            font-size: 14px;
+          }
+
+          @media (max-width: 650px) {
+            .content {
+              padding: 25px 20px;
+            }
+
+            .header h1 {
+              font-size: 27px;
+            }
+
+            .student-section h2 {
+              font-size: 23px;
+            }
+
+            .question {
+              padding: 18px;
+            }
+          }
+        </style>
+      </head>
+
+      <body>
+
+        <div class="container">
+
+          <!-- Header -->
+          <div class="header">
+            <h1>Hello from my OpenStack virtual machine!</h1>
+            <p>Week 7 - Infrastructure as Code with OpenTofu</p>
+          </div>
+
+          <div class="content">
+
+            <!-- Student Information -->
+            <div class="student-section">
+              <h2>${student_name}</h2>
+              <p>${page_message}</p>
+            </div>
+
+            <!-- Web Server Status -->
+            <div class="status-box">
+              <h3>Web Server Status</h3>
+              <p>
+                Apache2 web server is running successfully on the
+                OpenStack virtual machine. The infrastructure was
+                provisioned using OpenTofu and configured using cloud-init.
+              </p>
+            </div>
+
+            <!-- Questions and Answers -->
+            <h2 class="section-title">
+              Week 7 Questions &amp; Answers
+            </h2>
+
+            <!-- Question 1 -->
+            <div class="question">
+              <h3>1. What is Infrastructure as Code?</h3>
+              <p>
+                Infrastructure as Code (IaC) means creating and managing
+                infrastructure such as virtual machines, networks,
+                firewalls and IP addresses using code instead of manually
+                creating them through a web interface. With OpenTofu, the
+                infrastructure configuration can be saved, reused and
+                managed in a controlled way.
+              </p>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="question">
+              <h3>2. Why was OpenTofu created?</h3>
+              <p>
+                OpenTofu was created as an open-source alternative after
+                HashiCorp changed Terraform's license in 2023. OpenTofu
+                was created as a fork of Terraform and is maintained under
+                the Linux Foundation. It uses the same HCL-style
+                configuration approach and provides a community-driven
+                open-source IaC tool.
+              </p>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="question">
+              <h3>3. What is the state file?</h3>
+              <p>
+                The state file, normally called
+                <strong>terraform.tfstate</strong>, stores information
+                about the infrastructure managed by OpenTofu. It helps
+                OpenTofu connect the resources defined in the configuration
+                with the actual resources in OpenStack. The state file can
+                contain sensitive information, so it should not normally be
+                committed to Git.
+              </p>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="question">
+              <h3>4. Why do some changes require VM replacement?</h3>
+              <p>
+                Some properties of a virtual machine cannot be safely
+                changed on the existing VM. When such a property changes,
+                OpenTofu may need to destroy the old VM and create a new
+                one. In <strong>tofu plan</strong>, this can be shown as
+                <strong>must be replaced</strong> or
+                <strong>-/+</strong>. This is why the plan should always
+                be checked carefully before running <strong>tofu apply</strong>.
+              </p>
+            </div>
+
+          </div>
+
+          <!-- Footer -->
+          <div class="footer">
+            Week 7 OpenStack &amp; OpenTofu Project
+          </div>
+
+        </div>
+
+      </body>
+      </html>
+
+runcmd:
+  - systemctl enable apache2
+  - systemctl restart apache2
